@@ -1,0 +1,101 @@
+/* ALL */
+body {
+    margin: 0;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+/* STYLE HEADER */
+#header {
+    background-color: #115e59;
+    padding: 20px 24PX;
+}
+
+.hospitalName,
+.headerDay,
+.headerDate,
+.hospitalItem {
+    font-family: "JetBrains Mono", monospace;
+}
+
+/* Kiri */
+.hospitalName {
+    font-size: 12px;
+    color: #46ecd5;
+    letter-spacing: 1.2px;
+    margin-bottom: 2px;
+}
+
+.hospitalTitle {
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    font-family: "DM Serif Display", serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+/* Tengah */
+.headerItem {
+    min-width: 130px;
+    padding: 0 25px;
+    border-left: 1px solid #0f766e;
+    color: #46ecd5;
+}
+
+.headerItem:first-child {
+    border-left: none;
+}
+
+.headerNumber {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.headerNumber:hover {
+    color: white;
+}
+
+.headerStatus {
+    font-size: 12px;
+    font-family: "Outfit", sans-serif;
+}
+
+/* Kanan */
+.headerDay {
+    font-size: 12px;
+    color: #46ecd5;
+}
+
+.headerDate {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* STYLE DOCTORS ON DUTY */
+
+
+/* STYLE DOCTORS SCHEDULE*/
+
+
+/* STYLE QUEUE LIST*/
+
+
+/* STYLE BOOK A CONSULTATION*/
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .headerQueue {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .headerRight {
+        display: none;
+    }
+}
