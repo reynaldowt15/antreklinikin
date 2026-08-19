@@ -99,3 +99,13 @@ body {
         display: none;
     }
 }
+
+@media (max-width: 576px) {
+    .hospitalName {
+        font-size: 10px;
+    }
+
+    .hospitalTitle {
+        font-size: 15px;
+    }
+}
