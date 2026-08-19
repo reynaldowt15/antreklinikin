@@ -1,6 +1,7 @@
 /* ALL */
 body {
     margin: 0;
+    background-color: #f8faf9;
 }
 
 .container-fluid {
@@ -77,7 +78,55 @@ body {
 }
 
 /* STYLE DOCTORS ON DUTY */
+.doctors-section {
+    padding: 50px;
+}
 
+.section-header {
+    margin-bottom: 15px;
+}
+
+.section-header h2 {
+    font-size: 20px;
+    margin: 0;
+}
+
+/* Tempat 6 dokter */
+.doctor-list {
+    display: flex;
+    gap: 10px;
+}
+
+/* Card dokter */
+.doctor-card {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Foto */
+.doctor-photo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+/* Nama */
+.doctor-card .card-title {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* Specialty */
+.doctor-card .card-text {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+/* List */
+.doctor-card .list-group-item {
+    font-size: 11px;
+    padding: 6px 10px;
+}
 
 /* STYLE DOCTORS SCHEDULE*/
 
@@ -97,5 +146,15 @@ body {
 @media (max-width: 640px) {
     .headerRight {
         display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .hospitalName {
+        font-size: 10px;
+    }
+
+    .hospitalTitle {
+        font-size: 15px;
     }
 }

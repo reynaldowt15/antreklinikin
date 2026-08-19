@@ -27,22 +27,22 @@
     <div class="container-fluid">
         <!-- Shania -->
         <header id="header">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-md-5 col-8">
                     <div class="hospitalName">RUMAH SAKIT UMUM</div>
                     <h1 class="hospitalTitle">Hospital Queue Management System</h1>
                 </div>
                 <div class="col-md-5 d-md-flex justify-content-center headerQueue">
                     <div class="headerItem text-center">
-                        <div class="headerNumber">9</div>
+                        <div class="headerNumber headerWaiting">1</div>
                         <div class="headerStatus">Waiting</div>
                     </div>
                     <div class="headerItem text-center">
-                        <div class="headerNumber">4</div>
-                        <div class="headerStatus">In Progres</div>
+                        <div class="headerNumber headerInProgress">1</div>
+                        <div class="headerStatus">In Progress</div>
                     </div>
                     <div class="headerItem text-center">
-                        <div class="headerNumber">3</div>
+                        <div class="headerNumber headerDone">1</div>
                         <div class="headerStatus">Done Today</div>
                     </div>
                 </div>
@@ -55,10 +55,9 @@
 
         <!-- Ilham -->
         <section class="doctors-section">
-                      <div class="section-header">
+            <div class="section-header">
                 <h2>Doctors on Duty</h2>
             </div>
-
             <div class="doctor-list" id="doctor-list"></div>
         </section>
 
@@ -78,11 +77,12 @@
         <section id="bookAConsultation">
 
         </section>
-
-
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
