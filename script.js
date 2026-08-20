@@ -353,6 +353,11 @@ function getQueue(daftarAntrian) {
 
         const resGetStatusColor = getStatusColor(element.status)
 
+        let visible = ``
+        if (element.status === `done`) {
+            visible = `none`
+        }
+
         str +=
             `<tr>
                 <td style="color: grey;">${element.id}</td>
@@ -362,7 +367,7 @@ function getQueue(daftarAntrian) {
                 <td class="align-middle"><div class="rounded p-1" style="width: fit-content; color: ${resGetStatusColor.color}; background-color: ${resGetStatusColor.backgroundColor};">${element.status}</div></td>
                 <td class="align-middle"><button data-bs-toggle="modal" data-bs-target="#editModal" id="queue${element.id}" 
                     type="button" class="btn primaryButton-custom-select" data-id="${element.id}" data-status="${element.status}" 
-                    data-date="${element.date}" data-time="${element.time}" data-name="${element.name}" data-doctor="${doctors[element.doctorId - 1].name}">
+                    data-date="${element.date}" data-time="${element.time}" data-name="${element.name}" data-doctor="${doctors[element.doctorId - 1].name}" style="display: ${visible}">
                     <i class="bi bi-pencil-square"></i>Edit</button>
                 </td>
             </tr>`
@@ -541,13 +546,19 @@ function listener() {
             const status = button.dataset.status;
             const time = button.dataset.time;
 
+            document.getElementById('modal-date').disabled = false;
+            document.getElementById('modal-time').disabled = false;
             document.getElementById('modal-id').value = id
             document.getElementById('modal-name').placeholder = name
             document.getElementById('modal-doctor').placeholder = doctor
             document.getElementById('modal-date').value = date;
             document.getElementById('modal-date').min = nowDate;
             document.getElementById('modal-time').value = time;
-            document.getElementById('modal-status').value = status;
+
+            if (status === `in-progress`) {
+                document.getElementById('modal-date').disabled = true;
+                document.getElementById('modal-time').disabled = true;
+            }
         });
     });
 }
@@ -562,6 +573,14 @@ function editFunction() {
     queue[id - 1].time = time
     queue[id - 1].date = date
     queue[id - 1].status = status
+
+    if (status === `done`) {
+        doctors[queue[id - 1].doctorId - 1].active -= 1
+    } else if (status === `in-progress`) {
+        doctors[queue[id - 1].doctorId - 1].active += 1
+        doctors[queue[id - 1].doctorId - 1].wait -= 1
+    }
+    document.getElementById(`buttonDropDown`).innerText = `All Doctors`
 
     getQueue(queue)
     listener()
