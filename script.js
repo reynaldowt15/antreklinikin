@@ -36,7 +36,7 @@ const doctors = [
         photo:
             "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=80&h=80&fit=crop&auto=format",
         room: "Room D",
-        active: 1,
+        active: 0,
         wait: 2,
     },
     {
@@ -55,8 +55,8 @@ const doctors = [
         specialty: "Umum",
         photo: "image/bruno.jpg",
         room: "Room F",
-        active: 1,
-        wait: 4,
+        active: 0,
+        wait: 2,
     },
 ];
 
@@ -381,24 +381,40 @@ function getCurrentSchedule() {
         const currentDay = days[currentDate.getDay()];
 
         const year = currentDate.getFullYear();
+
         const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+
         const date = String(currentDate.getDate()).padStart(2, "0");
 
         const dateString = `${year}-${month}-${date}`;
-        console.log(INITIAL_SCHEDULE);
+
         for (let j = 0; j < INITIAL_SCHEDULE.length; j++) {
             const schedule = INITIAL_SCHEDULE[j];
 
             if (schedule.day === currentDay) {
+                let booked = 0;
+
+                for (let k = 0; k < queue.length; k++) {
+                    const patient = queue[k];
+
+                    if (
+                        patient.doctorId === schedule.doctorId &&
+                        patient.date === dateString &&
+                        patient.time >= schedule.startTime &&
+                        patient.time < schedule.endTime
+                    ) {
+                        booked++;
+                    }
+                }
+
                 result.push({
                     ...schedule,
                     date: dateString,
-                    booked: 0,
+                    booked: booked,
                 });
             }
         }
     }
-
     return result;
 }
 
@@ -703,51 +719,34 @@ function headerTime() {
 
 // DOM HEADER
 // Header Jumlah Antrian
-let headerWaiting = document.querySelector(".headerWaiting");
-let headerInProgress = document.querySelector(".headerInProgress");
-let headerDone = document.querySelector(".headerDone");
+function header() {
+    let headerWaiting = document.querySelector(".headerWaiting");
+    let headerInProgress = document.querySelector(".headerInProgress");
+    let headerDone = document.querySelector(".headerDone");
 
-headerWaiting.textContent = headerQueue(queue)[0];
-headerInProgress.textContent = headerQueue(queue)[1];
-headerDone.textContent = headerQueue(queue)[2];
+    headerWaiting.textContent = headerQueue(queue)[0];
+    headerInProgress.textContent = headerQueue(queue)[1];
+    headerDone.textContent = headerQueue(queue)[2];
 
-// Header Date
-let headerDay = document.querySelector(".headerDay");
-let headerDate = document.querySelector(".headerDate");
+    // Header Date
+    let headerDay = document.querySelector(".headerDay");
+    let headerDate = document.querySelector(".headerDate");
 
-headerDay.textContent = headerTime().hari;
-headerDate.textContent = headerTime().date;
+    headerDay.textContent = headerTime().hari;
+    headerDate.textContent = headerTime().date;
+}
 // END SHANIA
 
 // ILHAM
-// DOKTER STATUS
-function getDoctorStatus(doctorId) {
-    const doctorQueue = queue.filter(function (entry) {
-        return entry.doctorId === doctorId;
-    });
-
-    const waiting = doctorQueue.filter(function (entry) {
-        return entry.status === "waiting";
-    }).length;
-
-    const inProgress = doctorQueue.filter(function (entry) {
-        return entry.status === "Active";
-    }).length;
-
-    return {
-        active: Active,
-        waiting: waiting,
-    };
-}
-
 // DOM DOCTORS ON DUTY
 
 function doctorDuty() {
     const doctorList = document.getElementById("doctor-list");
+    let str = ``
 
     for (let i = 0; i < doctors.length; i++) {
-        doctorList.innerHTML += `
-        <div class="card doctor-card d-flex align-items-center">
+        str +=
+            `<div class="card doctor-card d-flex align-items-center">
             <img
                 src="${doctors[i].photo}"
                 class="card-img-top doctor-photo border rounded-circle"
@@ -767,17 +766,16 @@ function doctorDuty() {
                     ${doctors[i].room}
                 </li>
                 <li class="list-group-item item-status">
-                <span class="doctor-active">${doctors[i].active > 0 ? `${doctors[i].active} active` : ""}</span>
-                <span class="doctor-wait">${doctors[i].wait > 0 ? `${doctors[i].wait} wait` : ""}</span>
+                <span class="doctor-active">${doctors[i].active > 0 ? `${doctors[i].active} active` : "0 active"}</span>
+                <span class="doctor-wait">${doctors[i].wait > 0 ? `${doctors[i].wait} wait` : "0 wait"}</span>
                 </li>
             </ul>
-        </div>
-
-    `;
+        </div>`
     }
+    doctorList.innerHTML = str
 }
 
-doctorDuty();
+doctorDuty()
 // END ILHAM
 
 //REYNALDO//
@@ -1015,66 +1013,84 @@ function filterByDocName(name) {
 //LISTENER FOR EDIT BUTTON
 function listener() {
     // Attach event listeners to all trigger buttons
-    document
-        .querySelectorAll(".primaryButton-custom-select")
-        .forEach((button) => {
-            button.addEventListener("click", () => {
-                const nowDate = new Date().toLocaleDateString("en-CA");
+    document.querySelectorAll('.primaryButton-custom-select').forEach(button => {
+        button.addEventListener('click', () => {
+            const nowDate = new Date().toLocaleDateString('en-CA')
 
-                const id = button.dataset.id;
-                const name = button.dataset.name;
-                const doctor = button.dataset.doctor;
-                const date = button.dataset.date;
-                const status = button.dataset.status;
-                const time = button.dataset.time;
+            const id = button.dataset.id;
+            const name = button.dataset.name
+            const doctor = button.dataset.doctor
+            const date = button.dataset.date;
+            const status = button.dataset.status;
+            const time = button.dataset.time;
 
-                document.getElementById(`opt1`).style.display = ``;
-                document.getElementById("modal-date").disabled = false;
-                document.getElementById("modal-time").disabled = false;
-                document.getElementById("modal-id").value = id;
-                document.getElementById("modal-name").placeholder = name;
-                document.getElementById("modal-doctor").placeholder = doctor;
-                document.getElementById("modal-date").value = date;
-                document.getElementById("modal-date").min = nowDate;
-                document.getElementById("modal-time").value = time;
-                document.getElementById("modal-status").value = `Open this select menu`;
+            document.getElementById(`opt1`).selected = false
+            document.getElementById(`opt2`).selected = false
+            document.getElementById(`opt3`).selected = false
 
-                if (status === `in-progress`) {
-                    document.getElementById("modal-date").disabled = true;
-                    document.getElementById("modal-time").disabled = true;
-                    document.getElementById(`opt1`).style.display = `none`;
-                }
-            });
+            document.getElementById(`opt1`).style.display = ``
+            document.getElementById(`opt2`).style.display = ``
+            document.getElementById(`opt3`).style.display = ``
+
+            document.getElementById('modal-date').disabled = false;
+            document.getElementById('modal-time').disabled = false;
+
+            document.getElementById('modal-id').value = id
+            document.getElementById('modal-name').placeholder = name
+            document.getElementById('modal-doctor').placeholder = doctor
+            document.getElementById('modal-date').value = date;
+            document.getElementById('modal-date').min = nowDate;
+            document.getElementById('modal-time').value = time;
+            document.getElementById('modal-status').value = status
+
+            if (status === `in-progress`) {
+                document.getElementById('modal-date').disabled = true;
+                document.getElementById('modal-time').disabled = true;
+
+                document.getElementById(`opt1`).style.display = `none`
+                document.getElementById(`opt2`).style.display = `none`
+
+                document.getElementById(`opt2`).selected = true
+            }
+            if (status === `waiting`) {
+                document.getElementById(`opt1`).selected = true
+                document.getElementById(`opt3`).style.display = `none`
+            }
         });
+    });
 }
 
 //FUNCTION TO EDIT ARR QUEUE
 function editFunction() {
-    const id = document.getElementById("modal-id").value;
-    const date = document.getElementById("modal-date").value;
-    const time = document.getElementById("modal-time").value;
-    const status = document.getElementById("modal-status").value;
+    const id = document.getElementById('modal-id').value
+    const date = document.getElementById('modal-date').value
+    const time = document.getElementById('modal-time').value
+    const status = document.getElementById('modal-status').value
 
-    queue[id - 1].time = time;
-    queue[id - 1].date = date;
-    queue[id - 1].status = status;
-
-    if (status === `done`) {
-        doctors[queue[id - 1].doctorId - 1].active -= 1;
+    if (status === `waiting`) {
+        queue[id - 1].time = time
+        queue[id - 1].date = date
+    } else if (status === `done`) {
+        queue[id - 1].status = status
+        doctors[queue[id - 1].doctorId - 1].active -= 1
     } else if (status === `in-progress`) {
-        doctors[queue[id - 1].doctorId - 1].active += 1;
-        doctors[queue[id - 1].doctorId - 1].wait -= 1;
+        queue[id - 1].status = status
+        doctors[queue[id - 1].doctorId - 1].active += 1
+        doctors[queue[id - 1].doctorId - 1].wait -= 1
     }
-    document.getElementById(`buttonDropDown`).innerText = `All Doctors`;
+    document.getElementById(`buttonDropDown`).innerText = `All Doctors`
 
-    getQueue(queue);
-    listener();
+    getQueue(queue)
+    header()
+    doctorDuty()
+    listener()
 }
 
-getQueue(queue);
-getPatientCount(queue);
-getDoctorList(doctors);
-listener();
+getQueue(queue)
+getPatientCount(queue)
+getDoctorList(doctors)
+listener()
+header()
 //END REYNALDO//
 
 // DAANIYS //
@@ -1107,13 +1123,18 @@ function addBookingToQueue(namaPasien, doctorId, tanggal, waktu, alasan) {
         status: "waiting",
         position: posisiBaru
     };
-
     // Pindahkan data baru ke array queue global
     queue.push(bookingBaru);
+
+    // Tambah wait di object doctor +1
+    doctors[doctorId - 1].wait += 1
 
     // Render ulang UI Queue List agar pasien baru langsung muncul di tabel
     getQueue(queue);
     getPatientCount(queue);
+    renderSchedule()
+    header()
+    doctorDuty()
     listener();
 }
 
