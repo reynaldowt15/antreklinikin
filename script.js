@@ -36,7 +36,7 @@ const doctors = [
         photo:
             "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=80&h=80&fit=crop&auto=format",
         room: "Room D",
-        active: 1,
+        active: 0,
         wait: 2,
     },
     {
@@ -55,8 +55,8 @@ const doctors = [
         specialty: "Umum",
         photo: "image/bruno.jpg",
         room: "Room F",
-        active: 1,
-        wait: 4,
+        active: 0,
+        wait: 2,
     },
 ];
 
@@ -360,61 +360,61 @@ function fmt(date) {
 let bookedSchedule = JSON.parse(localStorage.getItem("bookedSchedule") || "{}");
 
 function getCurrentSchedule() {
-  const result = [];
+    const result = [];
 
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+    const days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+    ];
 
-  for (let i = 0; i <= 7; i++) {
-    const currentDate = new Date();
+    for (let i = 0; i <= 7; i++) {
+        const currentDate = new Date();
 
-    currentDate.setHours(0, 0, 0, 0);
-    currentDate.setDate(currentDate.getDate() + i);
+        currentDate.setHours(0, 0, 0, 0);
+        currentDate.setDate(currentDate.getDate() + i);
 
-    const currentDay = days[currentDate.getDay()];
+        const currentDay = days[currentDate.getDay()];
 
-    const year = currentDate.getFullYear();
+        const year = currentDate.getFullYear();
 
-    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+        const month = String(currentDate.getMonth() + 1).padStart(2, "0");
 
-    const date = String(currentDate.getDate()).padStart(2, "0");
+        const date = String(currentDate.getDate()).padStart(2, "0");
 
-    const dateString = `${year}-${month}-${date}`;
+        const dateString = `${year}-${month}-${date}`;
 
-    for (let j = 0; j < INITIAL_SCHEDULE.length; j++) {
-      const schedule = INITIAL_SCHEDULE[j];
+        for (let j = 0; j < INITIAL_SCHEDULE.length; j++) {
+            const schedule = INITIAL_SCHEDULE[j];
 
-      if (schedule.day === currentDay) {
-        let booked = 0;
+            if (schedule.day === currentDay) {
+                let booked = 0;
 
-        for (let k = 0; k < queue.length; k++) {
-          const patient = queue[k];
+                for (let k = 0; k < queue.length; k++) {
+                    const patient = queue[k];
 
-          if (
-            patient.doctorId === schedule.doctorId &&
-            patient.date === dateString &&
-            patient.time >= schedule.startTime &&
-            patient.time < schedule.endTime
-          ) {
-            booked++;
-          }
+                    if (
+                        patient.doctorId === schedule.doctorId &&
+                        patient.date === dateString &&
+                        patient.time >= schedule.startTime &&
+                        patient.time < schedule.endTime
+                    ) {
+                        booked++;
+                    }
+                }
+
+                result.push({
+                    ...schedule,
+                    date: dateString,
+                    booked: booked,
+                });
+            }
         }
-
-        result.push({
-          ...schedule,
-          date: dateString,
-          booked: booked,
-        });
-      }
     }
-  }
     return result;
 }
 
@@ -766,8 +766,8 @@ function doctorDuty() {
                     ${doctors[i].room}
                 </li>
                 <li class="list-group-item item-status">
-                <span class="doctor-active">${doctors[i].active > 0 ? `${doctors[i].active} active` : ""}</span>
-                <span class="doctor-wait">${doctors[i].wait > 0 ? `${doctors[i].wait} wait` : ""}</span>
+                <span class="doctor-active">${doctors[i].active > 0 ? `${doctors[i].active} active` : "0 active"}</span>
+                <span class="doctor-wait">${doctors[i].wait > 0 ? `${doctors[i].wait} wait` : "0 wait"}</span>
                 </li>
             </ul>
         </div>`
@@ -822,13 +822,13 @@ function getQueue(daftarAntrian) {
         }
 
         str += `<tr>
-                <td style="color: grey;">${element.id}</td>
-                <td style="white-space: pre-line;">${element.name}\n${element.reason}</td>
-                <td style="white-space: pre-line;">${doctors[element.doctorId - 1].name}\n${doctors[element.doctorId - 1].room} </td>
-                <td style="white-space: pre-line;">${element.time}\n${shortDate}</td>
-                <td class="align-middle"><div class="rounded p-1" style="width: fit-content; color: ${resGetStatusColor.color}; background-color: ${resGetStatusColor.backgroundColor};">${element.status}</div></td>
-                <td class="align-middle"><button data-bs-toggle="modal" data-bs-target="#editModal" id="queue${element.id}" 
-                    type="button" class="btn primaryButton-custom-select" data-id="${element.id}" data-status="${element.status}" 
+                <td class="number-list-queue" style="color: grey;">${element.id}</td>
+                <td class="table-info-queue" style="white-space: pre-line;">${element.name}\n${element.reason}</td>
+                <td class="table-info-queue" style="white-space: pre-line;">${doctors[element.doctorId - 1].name}\n${doctors[element.doctorId - 1].room} </td>
+                <td class="table-info-queue" style="white-space: pre-line;">${element.time}\n${shortDate}</td>
+                <td class="align-middle table-info-queue"><div class="rounded p-1" style="width: fit-content; color: ${resGetStatusColor.color}; background-color: ${resGetStatusColor.backgroundColor};">${element.status}</div></td>
+                <td class="align-middle table-info-queue"><button data-bs-toggle="modal" data-bs-target="#editModal" id="queue${element.id}" 
+                    type="button" class="btn primaryButton-custom-select table-info-queue" data-id="${element.id}" data-status="${element.status}" 
                     data-date="${element.date}" data-time="${element.time}" data-name="${element.name}" data-doctor="${doctors[element.doctorId - 1].name}" style="display: ${visible}">
                     <i class="bi bi-pencil-square"></i>Edit</button>
                 </td>
@@ -1123,7 +1123,6 @@ function addBookingToQueue(namaPasien, doctorId, tanggal, waktu, alasan) {
         status: "waiting",
         position: posisiBaru
     };
-    console.log(bookingBaru)
     // Pindahkan data baru ke array queue global
     queue.push(bookingBaru);
 
