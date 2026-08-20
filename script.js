@@ -381,19 +381,36 @@ function getCurrentSchedule() {
     const currentDay = days[currentDate.getDay()];
 
     const year = currentDate.getFullYear();
+
     const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+
     const date = String(currentDate.getDate()).padStart(2, "0");
 
     const dateString = `${year}-${month}-${date}`;
-    console.log(INITIAL_SCHEDULE);
+
     for (let j = 0; j < INITIAL_SCHEDULE.length; j++) {
       const schedule = INITIAL_SCHEDULE[j];
 
       if (schedule.day === currentDay) {
+        let booked = 0;
+
+        for (let k = 0; k < queue.length; k++) {
+          const patient = queue[k];
+
+          if (
+            patient.doctorId === schedule.doctorId &&
+            patient.date === dateString &&
+            patient.time >= schedule.startTime &&
+            patient.time < schedule.endTime
+          ) {
+            booked++;
+          }
+        }
+
         result.push({
           ...schedule,
           date: dateString,
-          booked: 0,
+          booked: booked,
         });
       }
     }
@@ -1077,12 +1094,11 @@ getDoctorList(doctors);
 listener();
 //END REYNALDO//
 
-// DAANIYS //
-// BOOK A CONSULTATION 
+// DAANIYS / /
+// BOOK A CONSULTATION
 // 1. Function khusus untuk menambah data booking ke dalam queue
 function addBookingToQueue(namaPasien, doctorId, tanggal, waktu, alasan) {
-
-//   Hitung idTerbesar untuk id baru
+  //   Hitung idTerbesar untuk id baru
   let idTerbesar = 0;
   for (let i = 0; i < queue.length; i++) {
     if (queue[i].id > idTerbesar) idTerbesar = queue[i].id;
@@ -1105,7 +1121,7 @@ function addBookingToQueue(namaPasien, doctorId, tanggal, waktu, alasan) {
     date: tanggal,
     reason: alasan,
     status: "waiting",
-    position: posisiBaru
+    position: posisiBaru,
   };
 
   // Pindahkan data baru ke array queue global
@@ -1115,6 +1131,7 @@ function addBookingToQueue(namaPasien, doctorId, tanggal, waktu, alasan) {
   getQueue(queue);
   getPatientCount(queue);
   listener();
+  renderSchedule();
 }
 
 // 2. Event Listener Form Book a Consultation
@@ -1130,11 +1147,11 @@ form.addEventListener("submit", function (e) {
 
   if (semuaValid) {
     // urutan fields sesuai HTML: 0=Full Name, 1=Phone, 2=Select Doctor, 3=Date, 4=Time, 5=Reason
-    const namaPasien   = fields[0].value.trim();
+    const namaPasien = fields[0].value.trim();
     const doctorSelect = fields[2]; // elemen <select> Select Doctor
-    const tanggal      = fields[3].value;
-    const waktu        = fields[4].value;
-    const alasan       = fields[5].value.trim();
+    const tanggal = fields[3].value;
+    const waktu = fields[4].value;
+    const alasan = fields[5].value.trim();
 
     // doctorId = urutan pilihan di dropdown
     const doctorId = doctorSelect.selectedIndex;
