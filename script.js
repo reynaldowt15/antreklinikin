@@ -61,6 +61,36 @@ const doctors = [
 ]
 
 
+function getDoctorStatus(doctorId) {
+
+    const doctorQueue = queue.filter(function (entry) {
+
+        return entry.doctorId === doctorId;
+
+    });
+
+    const waiting = doctorQueue.filter(function (entry) {
+
+        return entry.status === "waiting";
+
+    }).length;
+
+    const inProgress = doctorQueue.filter(function (entry) {
+
+        return entry.status === "Active";
+
+    }).length;
+
+    return {
+        active: Active,
+        waiting: waiting
+    };
+}
+
+
+
+
+
 const doctorList = document.getElementById("doctor-list")
 
 for (let i = 0; i < doctors.length; i++) {
