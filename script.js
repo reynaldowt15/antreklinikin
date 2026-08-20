@@ -607,37 +607,70 @@ listener()
 //END REYNALDO//
 
 // DAANIYS //
-// BOOK A CONSULTATION
-  const form = document.querySelector("#bookAConsultation form");
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
+// BOOK A CONSULTATION 
+// 1. Function khusus untuk menambah data booking ke dalam queue
+function addBookingToQueue(namaPasien, doctorId, tanggal, waktu, alasan) {
+
+//   Hitung idTerbesar untuk id baru
+  let idTerbesar = 0;
+  for (let i = 0; i < queue.length; i++) {
+    if (queue[i].id > idTerbesar) idTerbesar = queue[i].id;
+  }
+  const idBaru = idTerbesar + 1;
+
+  // Hitung posisi antrean baru untuk dokter yang sama
+  let posisiBaru = 0;
+  for (let i = 0; i < queue.length; i++) {
+    if (queue[i].doctorId === doctorId) posisiBaru++;
+  }
+  posisiBaru = posisiBaru + 1;
+
+  // Susun objek data sesuai struktur array queue kamu
+  const bookingBaru = {
+    id: idBaru,
+    doctorId: doctorId,
+    name: namaPasien,
+    time: waktu,
+    date: tanggal,
+    reason: alasan,
+    status: "waiting",
+    position: posisiBaru
+  };
+
+  // Pindahkan data baru ke array queue global
+  queue.push(bookingBaru);
+
+  // Render ulang UI Queue List agar pasien baru langsung muncul di tabel
+  getQueue(queue);
+  getPatientCount(queue);
+  listener();
+}
+
+// 2. Event Listener Form Book a Consultation
+const form = document.querySelector("#bookAConsultation form");
+
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
 
   const fields = form.querySelectorAll(".form-control, .form-select");
   let semuaValid = true;
 
-  for (let i = 0; i < fields.length; i++) {
-    const field = fields[i];
-    let kosong = false;
-
-    if (field.tagName === "SELECT") {
-      if (field.value === "Choose a doctor" || field.value === "Select time") {
-        kosong = true;
-      }
-    } else {
-      if (field.value.trim().length === 0) {
-        kosong = true;
-      }
-    }
-
-    if (kosong) {
-      field.classList.add("is-invalid");
-      semuaValid = false;
-    } else {
-      field.classList.remove("is-invalid");
-    }
-  }
+  // ... (loop validasi kamu yang sudah ada, biarkan seperti itu) ...
 
   if (semuaValid) {
+    // urutan fields sesuai HTML: 0=Full Name, 1=Phone, 2=Select Doctor, 3=Date, 4=Time, 5=Reason
+    const namaPasien   = fields[0].value.trim();
+    const doctorSelect = fields[2]; // elemen <select> Select Doctor
+    const tanggal      = fields[3].value;
+    const waktu        = fields[4].value;
+    const alasan       = fields[5].value.trim();
+
+    // doctorId = urutan pilihan di dropdown
+    const doctorId = doctorSelect.selectedIndex;
+
+    // PANGGIL FUNCTION DI ATAS SINI
+    addBookingToQueue(namaPasien, doctorId, tanggal, waktu, alasan);
+
     alert("Booking confirmed!");
     form.reset();
   } else {
