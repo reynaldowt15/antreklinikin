@@ -1,0 +1,195 @@
+/* ALL */
+body {
+    margin: 0;
+    background-color: #f8faf9;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+/* STYLE HEADER */
+#header {
+    background-color: #115e59;
+    padding: 20px 24PX;
+}
+
+.hospitalName,
+.headerDay,
+.headerDate,
+.hospitalItem {
+    font-family: "JetBrains Mono", monospace;
+}
+
+/* Kiri */
+.hospitalName {
+    font-size: 12px;
+    color: #46ecd5;
+    letter-spacing: 1.2px;
+    margin-bottom: 2px;
+}
+
+.hospitalTitle {
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    font-family: "DM Serif Display", serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+/* Tengah */
+.headerItem {
+    min-width: 130px;
+    padding: 0 25px;
+    border-left: 1px solid #0f766e;
+    color: #46ecd5;
+}
+
+.headerItem:first-child {
+    border-left: none;
+}
+
+.headerNumber {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.headerNumber:hover {
+    color: white;
+}
+
+.headerStatus {
+    font-size: 12px;
+    font-family: "Outfit", sans-serif;
+}
+
+/* Kanan */
+.headerDay {
+    font-size: 12px;
+    color: #46ecd5;
+}
+
+.headerDate {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* STYLE DOCTORS ON DUTY */
+.doctors-section {
+    padding: 50px;
+}
+
+.section-header {
+    margin-bottom: 15px;
+}
+
+.section-header h2 {
+    font-size: 20px;
+    margin: 0;
+}
+
+/* Tempat 6 dokter */
+.doctor-list {
+    display: flex;
+    gap: 10px;
+}
+
+/* Card dokter */
+.doctor-card {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Foto */
+.doctor-photo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+/* Nama */
+.doctor-card .card-title {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* Specialty */
+.doctor-card .card-text {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+/* List */
+.doctor-card .list-group-item {
+    font-size: 11px;
+    padding: 6px 10px;
+}
+
+/* STYLE DOCTORS SCHEDULE*/
+
+
+/* STYLE QUEUE LIST*/
+
+
+/* STYLE BOOK A CONSULTATION*/
+#bookAConsultation {
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 60px;
+    background-color: white;
+    padding: 32px;
+    border: 1px solid;
+    border-radius: 16px;
+    border-color: white;
+}
+.book {
+    margin-top: 10px;
+    margin-left: 180px;
+    margin-right: 180px;
+}
+.judul {
+    font-family: "DM Serif Display", serif;
+    font-size: 25px;
+    font-weight: 600;
+}
+.rose {
+    color: oklch(0.712 0.194 13.428);
+}
+
+.form-label {
+    color: oklch(0.707 0.022 261.325);
+    font-family: "JetBrains Mono", monospace;
+}
+
+.text-xs {
+    color: oklch(0.707 0.022 261.325);
+    font-family: Outfit, sans-serif;
+    font-size: 14px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .headerQueue {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .headerRight {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .hospitalName {
+        font-size: 10px;
+    }
+
+    .hospitalTitle {
+        font-size: 15px;
+    }
+}
+
