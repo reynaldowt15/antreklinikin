@@ -546,6 +546,7 @@ function listener() {
             const status = button.dataset.status;
             const time = button.dataset.time;
 
+            document.getElementById(`opt1`).style.display = ``
             document.getElementById('modal-date').disabled = false;
             document.getElementById('modal-time').disabled = false;
             document.getElementById('modal-id').value = id
@@ -554,10 +555,12 @@ function listener() {
             document.getElementById('modal-date').value = date;
             document.getElementById('modal-date').min = nowDate;
             document.getElementById('modal-time').value = time;
+            document.getElementById('modal-status').value = `Open this select menu`;
 
             if (status === `in-progress`) {
                 document.getElementById('modal-date').disabled = true;
                 document.getElementById('modal-time').disabled = true;
+                document.getElementById(`opt1`).style.display = `none`
             }
         });
     });
