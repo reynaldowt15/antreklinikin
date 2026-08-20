@@ -1,7 +1,7 @@
 /* ALL */
 body {
     margin: 0;
-    background-color: #f8faf9;
+    background-color: rgba(249, 250, 251, 0.6);
 }
 
 .container-fluid {
@@ -79,7 +79,8 @@ body {
 
 /* STYLE DOCTORS ON DUTY */
 .doctors-section {
-    padding: 50px;
+    padding: 32px 24px;
+    margin-top: -10px;
 }
 
 .section-header {
@@ -87,52 +88,125 @@ body {
 }
 
 .section-header h2 {
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: "DM Serif Display", serif;
     margin: 0;
 }
 
 /* Tempat 6 dokter */
 .doctor-list {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
     gap: 10px;
 }
 
 /* Card dokter */
 .doctor-card {
-    flex: 1;
-    min-width: 0;
+    border-radius: 10px;
+    padding: 15px 0;
+}
+
+.doctor-card:hover {
+    border: 1.2px solid rgb(150, 255, 236);
+    box-sizing: border-box;
 }
 
 /* Foto */
 .doctor-photo {
-    width: 80px;
-    height: 80px;
+    width: 48px;
+    height: 48px;
+    margin: 0px 15px;
     object-fit: cover;
 }
 
 /* Nama */
 .doctor-card .card-title {
-    font-size: 14px;
     margin-bottom: 5px;
+    font-size: 12px;
+    font-family: "Outfit", sans-serif;
+    font-weight: 600;
 }
 
 /* Specialty */
 .doctor-card .card-text {
     font-size: 12px;
     margin-bottom: 5px;
+    color: rgb(13, 148, 136);
+    font-family: "Outfit", sans-serif;
 }
 
 /* List */
+.doctor-card ul {
+    margin-top: -10px;
+}
+
 .doctor-card .list-group-item {
-    font-size: 11px;
+    font-size: 12px;
     padding: 6px 10px;
+}
+
+/* Room */
+.doctor-card .item-room {
+    color: #99a1af;
+    font-family: "JetBrains Mono", monospace;
+}
+
+.list-group .item-status {
+    padding-top: 10px;
+}
+
+/* Active */
+.doctor-card .doctor-active {
+    background-color: rgb(204, 251, 241);
+    color: rgb(15, 118, 110);
+    font-family: "JetBrains Mono", monospace;
+    border-radius: 3px;
+    padding: 3px 5px;
+    margin-right: 3px;
+}
+
+/* Wait */
+.doctor-card .doctor-wait {
+    margin-left: 3px;
+    padding: 3px 5px;
+    background-color: #fffbeb;
+    color: #e17100;
+    font-family: "JetBrains Mono", monospace;
+    border-radius: 3px;
 }
 
 /* STYLE DOCTORS SCHEDULE*/
 
 
 /* STYLE QUEUE LIST*/
+.primaryButton-custom {
+    color: #8E8E93;
+    background-color: white;
+    border-style: solid;
+    border-color: #8E8E93;
+}
 
+.primaryButton-custom-select {
+    color: #8E8E93;
+    background-color: white;
+    border-style: solid;
+    border-color: #8E8E93;
+}
+
+.primaryButton-custom:hover {
+    color: #8E8E93;
+    background-color: #F2F2F2;
+    border-style: solid;
+    border-color: #8E8E93;
+}
+
+.primaryButton-custom-select:hover {
+    color: #8E8E93;
+    background-color: #F2F2F2;
+    border-style: solid;
+    border-color: #8E8E93;
+}
 
 /* STYLE BOOK A CONSULTATION*/
 #bookAConsultation {
@@ -171,6 +245,12 @@ body {
 }
 
 /* RESPONSIVE */
+@media (max-width: 1024px) {
+    .doctor-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
     .headerQueue {
         display: none;
@@ -191,5 +271,14 @@ body {
     .hospitalTitle {
         font-size: 15px;
     }
+
+    .doctor-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
+@media (max-width: 425px) {
+    .doctor-list {
+        grid-template-columns: 1fr;
+    }
+}
