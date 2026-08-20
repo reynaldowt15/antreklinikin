@@ -219,11 +219,39 @@ const doctors = [
     }
 ]
 
+function getDoctorStatus(doctorId) {
+
+    const doctorQueue = queue.filter(function (entry) {
+
+        return entry.doctorId === doctorId;
+
+    });
+
+    const waiting = doctorQueue.filter(function (entry) {
+
+        return entry.status === "waiting";
+
+    }).length;
+
+    const inProgress = doctorQueue.filter(function (entry) {
+
+        return entry.status === "Active";
+
+    }).length;
+
+    return {
+        active: Active,
+        waiting: waiting
+    };
+}
+
+
 // FUNCTION HEADER
 function headerQueue(queue) {
     let totalDone = 0;
     let totalWaiting = 0;
     let totalInProgress = 0;
+
 
     for (let i = 0; i < queue.length; i++) {
 
@@ -276,7 +304,11 @@ headerDay.textContent = headerTime().hari;
 headerDate.textContent = headerTime().date;
 
 // DOM DOCTORS ON DUTY
+
+function doctorDuty() {
+
 const doctorList = document.getElementById("doctor-list")
+
 
 for (let i = 0; i < doctors.length; i++) {
 
@@ -309,7 +341,9 @@ for (let i = 0; i < doctors.length; i++) {
 
     `
 }
+}
 
+doctorDuty() 
 
 //REYNALDO//
 
