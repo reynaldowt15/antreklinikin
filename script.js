@@ -1142,7 +1142,6 @@ function addBookingToQueue(namaPasien, doctorId, tanggal, waktu, alasan) {
 
 // 2. Event Listener Form Book a Consultation
 const form = document.querySelector("#bookAConsultation form");
-
 form.addEventListener("submit", function (e) {
     e.preventDefault();
 
