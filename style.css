@@ -1,101 +1,382 @@
 /* ALL */
 body {
-    margin: 0;
+  margin: 0;
 }
 
 .container-fluid {
-    padding: 0;
+  padding: 0;
 }
 
 /* STYLE HEADER */
 #header {
-    background-color: #115e59;
-    padding: 20px 24PX;
+  background-color: #115e59;
+  padding: 20px 24px;
 }
 
 .hospitalName,
 .headerDay,
 .headerDate,
 .hospitalItem {
-    font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", monospace;
 }
 
 /* Kiri */
 .hospitalName {
-    font-size: 12px;
-    color: #46ecd5;
-    letter-spacing: 1.2px;
-    margin-bottom: 2px;
+  font-size: 12px;
+  color: #46ecd5;
+  letter-spacing: 1.2px;
+  margin-bottom: 2px;
 }
 
 .hospitalTitle {
-    color: white;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    font-family: "DM Serif Display", serif;
-    font-weight: 600;
-    font-style: normal;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  font-family: "DM Serif Display", serif;
+  font-weight: 600;
+  font-style: normal;
 }
 
 /* Tengah */
 .headerItem {
-    min-width: 130px;
-    padding: 0 25px;
-    border-left: 1px solid #0f766e;
-    color: #46ecd5;
+  min-width: 130px;
+  padding: 0 25px;
+  border-left: 1px solid #0f766e;
+  color: #46ecd5;
 }
 
 .headerItem:first-child {
-    border-left: none;
+  border-left: none;
 }
 
 .headerNumber {
-    font-size: 24px;
-    font-weight: 700;
+  font-size: 24px;
+  font-weight: 700;
 }
 
 .headerNumber:hover {
-    color: white;
+  color: white;
 }
 
 .headerStatus {
-    font-size: 12px;
-    font-family: "Outfit", sans-serif;
+  font-size: 12px;
+  font-family: "Outfit", sans-serif;
 }
 
 /* Kanan */
 .headerDay {
-    font-size: 12px;
-    color: #46ecd5;
+  font-size: 12px;
+  color: #46ecd5;
 }
 
 .headerDate {
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 /* STYLE DOCTORS ON DUTY */
 
-
 /* STYLE DOCTORS SCHEDULE*/
 
+.schedule-item {
+  padding: 16px 24px;
+  border-bottom: 1px solid #f9fafb;
+  transition: 0.2s;
+}
+
+.schedule-item:hover {
+  background: rgba(249, 250, 251, 0.6);
+}
+
+.schedule-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.schedule-photo {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #f0fdfa;
+}
+
+.schedule-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.schedule-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.schedule-doctor {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.schedule-open {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.schedule-open.available {
+  color: #0d9488;
+}
+
+.schedule-open.full {
+  color: #fb7185;
+}
+
+.schedule-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+  font-size: 11px;
+}
+
+.schedule-day {
+  color: #9ca3af;
+}
+
+.schedule-time {
+  color: #6b7280;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.schedule-room {
+  color: #9ca3af;
+}
+
+.dot {
+  color: #e5e7eb;
+}
+
+.availability {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.availability-track {
+  flex: 1;
+  height: 4px;
+  background: #f3f4f6;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.availability-bar {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.availability-bar.available {
+  background: #14b8a6;
+}
+
+.availability-bar.full {
+  background: #fb7185;
+}
+
+.availability-text {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.availability-text.available {
+  color: #9ca3af;
+}
+
+.availability-text.full {
+  color: #f43f5e;
+}
+
+.sort-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.sort-wrapper > span {
+  color: #d1d5db;
+  font-size: 11px;
+  margin-right: 4px;
+}
+
+.sort-btn {
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.sort-btn:hover {
+  color: #374151;
+  background: #f9fafb;
+}
+
+.sort-btn.active {
+  background: #f0fdfa;
+  color: #0f766e;
+  border: 1px solid #99f6e4;
+}
+
+.card-header {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid #f9fafb;
+}
+
+.card-heading h2 {
+  font-family: "DM Serif Display", serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #111827;
+  margin: 0;
+}
+
+.card-heading p {
+  color: #9ca3af;
+  font-size: 12px;
+  margin: 2px 0 0;
+}
+
+.sort-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.sort-wrapper > span {
+  color: #d1d5db;
+  font-size: 11px;
+  margin-right: 4px;
+}
+
+.sort-btn {
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.sort-btn:hover {
+  color: #374151;
+  background: #f9fafb;
+}
+
+.sort-btn.active {
+  background: #f0fdfa;
+  color: #0f766e;
+  border: 1px solid #99f6e4;
+}
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.search-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 144px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #d1d5db;
+}
+
+input,
+select {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  outline: none;
+  transition: 0.2s;
+}
+
+input:focus,
+select:focus {
+  border-color: #2dd4bf;
+  box-shadow: 0 0 0 3px #f0fdfa;
+}
+
+.search-wrapper input {
+  width: 100%;
+  padding: 9px 12px 9px 32px;
+  font-size: 12px;
+}
+
+.filter-row select {
+  padding: 9px 12px;
+  color: #4b5563;
+  font-size: 12px;
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background: #115e59;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999999;
+  left: 0;
+  top: 0;
+}
+
+.flair {
+  position: fixed;
+  opacity: 0;
+  width: 50px;
+  pointer-events: none;
+  z-index: 9999;
+}
 
 /* STYLE QUEUE LIST*/
-
 
 /* STYLE BOOK A CONSULTATION*/
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-    .headerQueue {
-        display: none;
-    }
+  .headerQueue {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {
-    .headerRight {
-        display: none;
-    }
+  .headerRight {
+    display: none;
+  }
 }
