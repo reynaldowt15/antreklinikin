@@ -188,7 +188,7 @@ const doctors = [
         specialty: "Spesialis Obsteri & Ginekologi",
         photo: "https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?w=80&h=80&fit=crop&auto=format",
         room: "Room C",
-        active: 1,
+        active: 0,
         wait: 1
     },
     {
@@ -197,7 +197,7 @@ const doctors = [
         specialty: "Spesialis Radiolog",
         photo: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=80&h=80&fit=crop&auto=format",
         room: "Room D",
-        active: 1,
+        active: 0,
         wait: 2
     },
     {
@@ -215,8 +215,8 @@ const doctors = [
         specialty: "Umum",
         photo: "image/bruno.jpg",
         room: "Room F",
-        active: 1,
-        wait: 4
+        active: 0,
+        wait: 2
     }
 ]
 
@@ -261,62 +261,37 @@ function headerTime() {
     }
 }
 
-// DOM HEADER
-// Header Jumlah Antrian
-let headerWaiting = document.querySelector('.headerWaiting');
-let headerInProgress = document.querySelector('.headerInProgress');
-let headerDone = document.querySelector('.headerDone');
+function header() {
+    // DOM HEADER
+    // Header Jumlah Antrian
+    let headerWaiting = document.querySelector('.headerWaiting');
+    let headerInProgress = document.querySelector('.headerInProgress');
+    let headerDone = document.querySelector('.headerDone');
 
-headerWaiting.textContent = headerQueue(queue)[0];
-headerInProgress.textContent = headerQueue(queue)[1];
-headerDone.textContent = headerQueue(queue)[2];
+    headerWaiting.textContent = headerQueue(queue)[0];
+    headerInProgress.textContent = headerQueue(queue)[1];
+    headerDone.textContent = headerQueue(queue)[2];
 
-// Header Date
-let headerDay = document.querySelector('.headerDay');
-let headerDate = document.querySelector('.headerDate');
+    // Header Date
+    let headerDay = document.querySelector('.headerDay');
+    let headerDate = document.querySelector('.headerDate');
 
-headerDay.textContent = headerTime().hari;
-headerDate.textContent = headerTime().date;
+    headerDay.textContent = headerTime().hari;
+    headerDate.textContent = headerTime().date;
+}
 // END SHANIA
 
 // ILHAM
-// DOKTER STATUS 
-function getDoctorStatus(doctorId) {
-
-    const doctorQueue = queue.filter(function (entry) {
-
-        return entry.doctorId === doctorId;
-
-    });
-
-    const waiting = doctorQueue.filter(function (entry) {
-
-        return entry.status === "waiting";
-
-    }).length;
-
-    const inProgress = doctorQueue.filter(function (entry) {
-
-        return entry.status === "Active";
-
-    }).length;
-
-    return {
-        active: Active,
-        waiting: waiting
-    };
-}
-
 // DOM DOCTORS ON DUTY
-
 function doctorDuty() {
 
-const doctorList = document.getElementById("doctor-list")
+    const doctorList = document.getElementById("doctor-list")
+    let str = ``
 
 
-for (let i = 0; i < doctors.length; i++) {
+    for (let i = 0; i < doctors.length; i++) {
 
-    doctorList.innerHTML += `
+        str += `
         <div class="card doctor-card d-flex align-items-center">
             <img
                 src="${doctors[i].photo}"
@@ -344,10 +319,11 @@ for (let i = 0; i < doctors.length; i++) {
         </div>
 
     `
-}
+    }
+    doctorList.innerHTML = str
 }
 
-doctorDuty() 
+doctorDuty()
 // END ILHAM
 
 
@@ -579,21 +555,37 @@ function listener() {
             const status = button.dataset.status;
             const time = button.dataset.time;
 
+            document.getElementById(`opt1`).selected = false
+            document.getElementById(`opt2`).selected = false
+            document.getElementById(`opt3`).selected = false
+
             document.getElementById(`opt1`).style.display = ``
+            document.getElementById(`opt2`).style.display = ``
+            document.getElementById(`opt3`).style.display = ``
+
             document.getElementById('modal-date').disabled = false;
             document.getElementById('modal-time').disabled = false;
+
             document.getElementById('modal-id').value = id
             document.getElementById('modal-name').placeholder = name
             document.getElementById('modal-doctor').placeholder = doctor
             document.getElementById('modal-date').value = date;
             document.getElementById('modal-date').min = nowDate;
             document.getElementById('modal-time').value = time;
-            document.getElementById('modal-status').value = `Open this select menu`;
+            document.getElementById('modal-status').value = status
 
             if (status === `in-progress`) {
                 document.getElementById('modal-date').disabled = true;
                 document.getElementById('modal-time').disabled = true;
+
                 document.getElementById(`opt1`).style.display = `none`
+                document.getElementById(`opt2`).style.display = `none`
+
+                document.getElementById(`opt2`).selected = true
+            }
+            if (status === `waiting`) {
+                document.getElementById(`opt1`).selected = true
+                document.getElementById(`opt3`).style.display = `none`
             }
         });
     });
@@ -606,19 +598,22 @@ function editFunction() {
     const time = document.getElementById('modal-time').value
     const status = document.getElementById('modal-status').value
 
-    queue[id - 1].time = time
-    queue[id - 1].date = date
-    queue[id - 1].status = status
-
-    if (status === `done`) {
+    if (status === `waiting`) {
+        queue[id - 1].time = time
+        queue[id - 1].date = date
+    } else if (status === `done`) {
+        queue[id - 1].status = status
         doctors[queue[id - 1].doctorId - 1].active -= 1
     } else if (status === `in-progress`) {
+        queue[id - 1].status = status
         doctors[queue[id - 1].doctorId - 1].active += 1
         doctors[queue[id - 1].doctorId - 1].wait -= 1
     }
     document.getElementById(`buttonDropDown`).innerText = `All Doctors`
 
     getQueue(queue)
+    header()
+    doctorDuty()
     listener()
 }
 
@@ -626,44 +621,45 @@ getQueue(queue)
 getPatientCount(queue)
 getDoctorList(doctors)
 listener()
+header()
 //END REYNALDO//
 
 // DAANIYS //
 // BOOK A CONSULTATION
-  const form = document.querySelector("#bookAConsultation form");
-  form.addEventListener("submit", function (e) {
+const form = document.querySelector("#bookAConsultation form");
+form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-  const fields = form.querySelectorAll(".form-control, .form-select");
-  let semuaValid = true;
+    const fields = form.querySelectorAll(".form-control, .form-select");
+    let semuaValid = true;
 
-  for (let i = 0; i < fields.length; i++) {
-    const field = fields[i];
-    let kosong = false;
+    for (let i = 0; i < fields.length; i++) {
+        const field = fields[i];
+        let kosong = false;
 
-    if (field.tagName === "SELECT") {
-      if (field.value === "Choose a doctor" || field.value === "Select time") {
-        kosong = true;
-      }
-    } else {
-      if (field.value.trim().length === 0) {
-        kosong = true;
-      }
+        if (field.tagName === "SELECT") {
+            if (field.value === "Choose a doctor" || field.value === "Select time") {
+                kosong = true;
+            }
+        } else {
+            if (field.value.trim().length === 0) {
+                kosong = true;
+            }
+        }
+
+        if (kosong) {
+            field.classList.add("is-invalid");
+            semuaValid = false;
+        } else {
+            field.classList.remove("is-invalid");
+        }
     }
 
-    if (kosong) {
-      field.classList.add("is-invalid");
-      semuaValid = false;
+    if (semuaValid) {
+        alert("Booking confirmed!");
+        form.reset();
     } else {
-      field.classList.remove("is-invalid");
+        alert("Please fill in all required fields.");
     }
-  }
-
-  if (semuaValid) {
-    alert("Booking confirmed!");
-    form.reset();
-  } else {
-    alert("Please fill in all required fields.");
-  }
 });
 // END DAANIYS
