@@ -167,7 +167,7 @@ const doctors = [
         id: 1,
         name: "dr. Salwa Az-Zahra, Sp.JP",
         specialty: "Spesialis Jantung dan Pembuluh Darah",
-        photo: "image/doctorfemale.jpg",
+        photo: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=80&h=80&fit=crop&auto=format",
         room: "Room A",
         active: 1,
         wait: 2
@@ -176,7 +176,7 @@ const doctors = [
         id: 2,
         name: "dr. Daaniys Nadya Shafwa, Sp.A",
         specialty: "Spesialis Anak",
-        photo: "image/doctorfemale.jpg",
+        photo: "https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=80&h=80&fit=crop&auto=format",
         room: "Room B",
         active: 1,
         wait: 1
@@ -185,7 +185,7 @@ const doctors = [
         id: 3,
         name: "dr. Shania Risky Agustin, Sp.OG",
         specialty: "Spesialis Obsteri & Ginekologi",
-        photo: "image/doctorfemale.jpg",
+        photo: "https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?w=80&h=80&fit=crop&auto=format",
         room: "Room C",
         active: 1,
         wait: 1
@@ -194,7 +194,7 @@ const doctors = [
         id: 4,
         name: "dr. Reynaldo William Tendean, Sp.Rad",
         specialty: "Spesialis Radiolog",
-        photo: "image/doctormale.jpg",
+        photo: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=80&h=80&fit=crop&auto=format",
         room: "Room D",
         active: 1,
         wait: 2
@@ -203,7 +203,7 @@ const doctors = [
         id: 5,
         name: "dr. Olga Hadi Purna Wahab Basalamah",
         specialty: "Umum",
-        photo: "image/doctormale.jpg",
+        photo: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=80&h=80&fit=crop&auto=format",
         room: "Room E",
         active: 1,
         wait: 1
@@ -212,7 +212,7 @@ const doctors = [
         id: 6,
         name: "dr. A. Muh. Ilhamsyah",
         specialty: "Umum",
-        photo: "image/doctormale.jpg",
+        photo: "image/bruno.jpg",
         room: "Room F",
         active: 1,
         wait: 4
@@ -281,10 +281,10 @@ const doctorList = document.getElementById("doctor-list")
 for (let i = 0; i < doctors.length; i++) {
 
     doctorList.innerHTML += `
-        <div class="card doctor-card">
+        <div class="card doctor-card d-flex align-items-center">
             <img
                 src="${doctors[i].photo}"
-                class="card-img-top doctor-photo"
+                class="card-img-top doctor-photo border rounded-circle"
                 alt="${doctors[i].name}"
             >
             <div class="card-body">
@@ -297,18 +297,12 @@ for (let i = 0; i < doctors.length; i++) {
             </div>
 
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">
+                <li class="list-group-item item-room">
                     ${doctors[i].room}
                 </li>
-                <li class="list-group-item">
-                    ${doctors[i].active > 0
-            ? `${doctors[i].active} active`
-            : ""
-        }
-                    ${doctors[i].wait > 0
-            ? `${doctors[i].wait} wait`
-            : ""
-        }
+                <li class="list-group-item item-status">
+                <span class="doctor-active">${doctors[i].active > 0 ? `${doctors[i].active} active` : ""}</span>
+                <span class="doctor-wait">${doctors[i].wait > 0 ? `${doctors[i].wait} wait` : ""}</span>
                 </li>
             </ul>
         </div>
