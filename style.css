@@ -209,6 +209,40 @@ body {
 }
 
 /* STYLE BOOK A CONSULTATION*/
+#bookAConsultation {
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 60px;
+    background-color: white;
+    padding: 32px;
+    border: 1px solid;
+    border-radius: 16px;
+    border-color: white;
+}
+.book {
+    margin-top: 10px;
+    margin-left: 180px;
+    margin-right: 180px;
+}
+.judul {
+    font-family: "DM Serif Display", serif;
+    font-size: 25px;
+    font-weight: 600;
+}
+.rose {
+    color: oklch(0.712 0.194 13.428);
+}
+
+.form-label {
+    color: oklch(0.707 0.022 261.325);
+    font-family: "JetBrains Mono", monospace;
+}
+
+.text-xs {
+    color: oklch(0.707 0.022 261.325);
+    font-family: Outfit, sans-serif;
+    font-size: 14px;
+}
 
 /* RESPONSIVE */
 @media (max-width: 1024px) {

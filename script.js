@@ -162,6 +162,7 @@ const queue = [
     }
 ]
 
+// LIST DOCTOR //
 const doctors = [
     {
         id: 1,
@@ -219,33 +220,7 @@ const doctors = [
     }
 ]
 
-function getDoctorStatus(doctorId) {
-
-    const doctorQueue = queue.filter(function (entry) {
-
-        return entry.doctorId === doctorId;
-
-    });
-
-    const waiting = doctorQueue.filter(function (entry) {
-
-        return entry.status === "waiting";
-
-    }).length;
-
-    const inProgress = doctorQueue.filter(function (entry) {
-
-        return entry.status === "Active";
-
-    }).length;
-
-    return {
-        active: Active,
-        waiting: waiting
-    };
-}
-
-
+// SHANIA
 // FUNCTION HEADER
 function headerQueue(queue) {
     let totalDone = 0;
@@ -302,6 +277,35 @@ let headerDate = document.querySelector('.headerDate');
 
 headerDay.textContent = headerTime().hari;
 headerDate.textContent = headerTime().date;
+// END SHANIA
+
+// ILHAM
+// DOKTER STATUS 
+function getDoctorStatus(doctorId) {
+
+    const doctorQueue = queue.filter(function (entry) {
+
+        return entry.doctorId === doctorId;
+
+    });
+
+    const waiting = doctorQueue.filter(function (entry) {
+
+        return entry.status === "waiting";
+
+    }).length;
+
+    const inProgress = doctorQueue.filter(function (entry) {
+
+        return entry.status === "Active";
+
+    }).length;
+
+    return {
+        active: Active,
+        waiting: waiting
+    };
+}
 
 // DOM DOCTORS ON DUTY
 
@@ -344,9 +348,10 @@ for (let i = 0; i < doctors.length; i++) {
 }
 
 doctorDuty() 
+// END ILHAM
+
 
 //REYNALDO//
-
 // Get color for status color in html
 function getStatusColor(status) {
     switch (status) {
@@ -599,5 +604,44 @@ getQueue(queue)
 getPatientCount(queue)
 getDoctorList(doctors)
 listener()
-
 //END REYNALDO//
+
+// DAANIYS //
+// BOOK A CONSULTATION
+  const form = document.querySelector("#bookAConsultation form");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+  const fields = form.querySelectorAll(".form-control, .form-select");
+  let semuaValid = true;
+
+  for (let i = 0; i < fields.length; i++) {
+    const field = fields[i];
+    let kosong = false;
+
+    if (field.tagName === "SELECT") {
+      if (field.value === "Choose a doctor" || field.value === "Select time") {
+        kosong = true;
+      }
+    } else {
+      if (field.value.trim().length === 0) {
+        kosong = true;
+      }
+    }
+
+    if (kosong) {
+      field.classList.add("is-invalid");
+      semuaValid = false;
+    } else {
+      field.classList.remove("is-invalid");
+    }
+  }
+
+  if (semuaValid) {
+    alert("Booking confirmed!");
+    form.reset();
+  } else {
+    alert("Please fill in all required fields.");
+  }
+});
+// END DAANIYS
