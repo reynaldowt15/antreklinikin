@@ -532,7 +532,8 @@ function listener() {
     // Attach event listeners to all trigger buttons
     document.querySelectorAll('.primaryButton-custom-select').forEach(button => {
         button.addEventListener('click', () => {
-            // 1. Extract the data from the clicked button's dataset
+            const nowDate = new Date().toLocaleDateString('en-CA')
+
             const id = button.dataset.id;
             const name = button.dataset.name
             const doctor = button.dataset.doctor
@@ -544,6 +545,7 @@ function listener() {
             document.getElementById('modal-name').placeholder = name
             document.getElementById('modal-doctor').placeholder = doctor
             document.getElementById('modal-date').value = date;
+            document.getElementById('modal-date').min = nowDate;
             document.getElementById('modal-time').value = time;
             document.getElementById('modal-status').value = status;
         });

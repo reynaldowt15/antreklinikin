@@ -183,4 +183,11 @@ body {
     border-color: #8E8E93;
 }
 
+.primaryButton-custom-select:hover {
+    color: #8E8E93;
+    background-color: #F2F2F2;
+    border-style: solid;
+    border-color: #8E8E93;
+}
+
 /* END REYNALDO */
