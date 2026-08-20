@@ -360,60 +360,59 @@ function fmt(date) {
 let bookedSchedule = JSON.parse(localStorage.getItem("bookedSchedule") || "{}");
 
 function getCurrentSchedule() {
-    const result = [];
+  const result = [];
 
-    const days = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-    ];
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
-    for (let i = 0; i <= 7; i++) {
-        const currentDate = new Date();
+  for (let i = 0; i <= 7; i++) {
+    const currentDate = new Date();
 
-        currentDate.setHours(0, 0, 0, 0);
-        currentDate.setDate(currentDate.getDate() + i);
+    currentDate.setHours(0, 0, 0, 0);
+    currentDate.setDate(currentDate.getDate() + i);
 
-        const currentDay = days[currentDate.getDay()];
+    const currentDay = days[currentDate.getDay()];
 
-        const year = currentDate.getFullYear();
+    const year = currentDate.getFullYear();
 
-        const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
 
-        const date = String(currentDate.getDate()).padStart(2, "0");
+    const date = String(currentDate.getDate()).padStart(2, "0");
 
-        const dateString = `${year}-${month}-${date}`;
+    const dateString = `${year}-${month}-${date}`;
 
-        for (let j = 0; j < INITIAL_SCHEDULE.length; j++) {
-            const schedule = INITIAL_SCHEDULE[j];
+    for (let j = 0; j < INITIAL_SCHEDULE.length; j++) {
+      const schedule = INITIAL_SCHEDULE[j];
 
-            if (schedule.day === currentDay) {
-                let booked = 0;
+      if (schedule.day === currentDay) {
+        let booked = 0;
 
-                for (let k = 0; k < queue.length; k++) {
-                    const patient = queue[k];
+        for (let k = 0; k < queue.length; k++) {
+          const patient = queue[k];
 
-                    if (
-                        patient.doctorId === schedule.doctorId &&
-                        patient.date === dateString &&
-                        patient.time >= schedule.startTime &&
-                        patient.time < schedule.endTime
-                    ) {
-                        booked++;
-                    }
-                }
-
-                result.push({
-                    ...schedule,
-                    date: dateString,
-                    booked: booked,
-                });
-            }
+          if (
+            patient.doctorId === schedule.doctorId &&
+            patient.date === dateString &&
+            patient.time >= schedule.startTime &&
+            patient.time < schedule.endTime
+          ) {
+            booked++;
+          }
         }
+
+        result.push({
+          ...schedule,
+          date: dateString,
+          booked: booked,
+        });
+      }
     }
 
     return result;
