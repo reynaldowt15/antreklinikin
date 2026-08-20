@@ -3,9 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bootstrap demo</title>
 
-    <!-- GOOLE FONT -->
+    <title>Klinikin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -23,28 +22,34 @@
 
     <!-- STYLE CSS -->
     <link rel="stylesheet" href="style.css" />
+
+    <!-- BOOTSTRAP ICON -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
   </head>
 
   <body>
     <div class="container-fluid">
       <!-- Shania -->
       <header id="header">
-        <div class="row">
-          <div class="col-md-5 col-8">
+        <div class="row align-items-center justify-content-between">
+          <div class="col-md-4 col-8">
             <div class="hospitalName">RUMAH SAKIT UMUM</div>
             <h1 class="hospitalTitle">Hospital Queue Management System</h1>
           </div>
           <div class="col-md-5 d-md-flex justify-content-center headerQueue">
             <div class="headerItem text-center">
-              <div class="headerNumber">9</div>
+              <div class="headerNumber headerWaiting">1</div>
               <div class="headerStatus">Waiting</div>
             </div>
             <div class="headerItem text-center">
-              <div class="headerNumber">4</div>
-              <div class="headerStatus">In Progres</div>
+              <div class="headerNumber headerInProgress">1</div>
+              <div class="headerStatus">In Progress</div>
             </div>
             <div class="headerItem text-center">
-              <div class="headerNumber">3</div>
+              <div class="headerNumber headerDone">1</div>
               <div class="headerStatus">Done Today</div>
             </div>
           </div>
@@ -56,7 +61,12 @@
       </header>
 
       <!-- Ilham -->
-      <section id="doctorsOnDuty"></section>
+      <section class="doctors-section">
+        <div class="section-header">
+          <h2>Doctors on Duty</h2>
+        </div>
+        <div class="doctor-list text-center" id="doctor-list"></div>
+      </section>
 
       <main>
         <!-- Olga -->
@@ -108,18 +118,353 @@
         </section>
 
         <!-- Reynaldo -->
-        <section id="queueList"></section>
+        <section id="queueList">
+          <!-- CONTAINER QUEUE LIST -->
+          <div class="container border border-black p-2 rounded">
+            <!-- First Heading -->
+            <h1
+              style="
+                font-family:
+                  DM Serif Display,
+                  serif;
+              "
+            >
+              Queue List
+            </h1>
+
+            <!-- Second Heading -->
+            <h2
+              id="headingBanyakPasien"
+              style="
+                color: grey;
+                font-family:
+                  DM Serif Display,
+                  serif;
+              "
+            >
+              1 Patient shown
+            </h2>
+
+            <!-- Bar -->
+            <div class="container-fluid mt-4">
+              <div class="row">
+                <!-- start_left side bar -->
+                <div class="col-auto">
+                  <div class="dropdown">
+                    <button
+                      id="buttonDropDown"
+                      class="btn primaryButton-custom dropdown-toggle"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      All Doctors
+                    </button>
+                    <ul id="dropDownDocList" class="dropdown-menu">
+                      <!-- get list from getDoctorList function -->
+                    </ul>
+                  </div>
+                </div>
+                <!-- end_left side bar -->
+
+                <!-- start_right side bar -->
+                <div class="col">
+                  <div class="row justify-content-end">
+                    <div class="col-auto">
+                      <p>Sort:</p>
+                    </div>
+                    <div class="col-auto">
+                      <button
+                        id="sortNumber"
+                        class="btn primaryButton-custom rounded"
+                        onclick="sortTableNum()"
+                      >
+                        #
+                      </button>
+                    </div>
+                    <div class="col-auto">
+                      <button
+                        id="sortName"
+                        class="btn primaryButton-custom rounded"
+                        onclick="sortTable(1)"
+                      >
+                        Name
+                      </button>
+                    </div>
+                    <div class="col-auto">
+                      <button
+                        id="sortTime"
+                        class="btn primaryButton-custom rounded"
+                        onclick="sortTable(3)"
+                      >
+                        Time
+                      </button>
+                    </div>
+                    <div class="col-auto">
+                      <button
+                        id="sortStatus"
+                        class="btn primaryButton-custom rounded"
+                        onclick="sortTable(4)"
+                      >
+                        Status
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- end_right side bar -->
+              </div>
+            </div>
+            <!-- End_Bar -->
+
+            <!-- Table -->
+            <div class="overflow-y-auto mt-4" style="max-height: 300px">
+              <table id="queueTable" class="table table-borderless w-100">
+                <thead>
+                  <tr>
+                    <th scope="col" style="color: grey">#</th>
+                    <th class="col-4" scope="col" style="color: grey">
+                      Patient
+                    </th>
+                    <th class="col-3" scope="col" style="color: grey">
+                      Doctor
+                    </th>
+                    <th scope="col" style="color: grey">Time</th>
+                    <th scope="col" style="color: grey">Status</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody id="isiTable">
+                  <!-- get table content from getQueue function -->
+                </tbody>
+              </table>
+            </div>
+            <!-- End_Table -->
+          </div>
+          <!-- END_CONTAINER QUEUE LIST -->
+
+          <!-- MODAL FOR EDIT -->
+          <div
+            class="modal fade"
+            id="editModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Edit Data</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+
+                <div class="modal-body">
+                  <form>
+                    <!-- show name -->
+                    <div data-mdb-input-init class="form-outline mb-4">
+                      <label class="form-label" for="modal-name"
+                        >Patient Name</label
+                      >
+                      <input
+                        type="text"
+                        id="modal-name"
+                        class="form-control"
+                        placeholder=""
+                        disabled
+                      />
+                    </div>
+
+                    <!-- show doctor -->
+                    <div data-mdb-input-init class="form-outline mb-4">
+                      <label class="form-label" for="modal-doctor"
+                        >Doctor Name</label
+                      >
+                      <input
+                        type="text"
+                        id="modal-doctor"
+                        class="form-control"
+                        placeholder=""
+                        disabled
+                      />
+                    </div>
+
+                    <!-- date input -->
+                    <input
+                      id="modal-id"
+                      type="text"
+                      value=""
+                      style="display: none"
+                    />
+                    <div data-mdb-input-init class="form-outline mb-4">
+                      <label class="form-label" for="modal-date">Date</label>
+                      <input type="date" id="modal-date" class="form-control" />
+                    </div>
+
+                    <!-- time input -->
+                    <div data-mdb-input-init class="form-outline mb-4">
+                      <label class="form-label" for="modal-time">Time</label>
+                      <input type="text" id="modal-time" class="form-control" />
+                    </div>
+
+                    <!-- time input -->
+                    <div data-mdb-input-init class="form-outline mb-4">
+                      <label class="form-label" for="modal-status"
+                        >Status</label
+                      >
+                      <select
+                        id="modal-status"
+                        class="form-select"
+                        aria-label="Default select example"
+                      >
+                        <option selected>Open this select menu</option>
+                        <option id="opt1" value="in-progress">
+                          In-progress
+                        </option>
+                        <option value="done">Done</option>
+                      </select>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    id="button-id"
+                    type="button"
+                    class="btn btn-success"
+                    onclick="editFunction()"
+                    data-bs-dismiss="modal"
+                  >
+                    Save changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END_MODAL FOR EDIT -->
+        </section>
       </main>
 
       <!-- Daaniys -->
-      <section id="bookAConsultation"></section>
+      <section id="bookAConsultation">
+        <div class="book">
+          <h2 class="judul">Book a Consultation</h2>
+          <p class="text-xs">
+            Register your name and select a doctor to join the queue.
+          </p>
+          <form class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label"
+                >FULL NAME <span class="rose">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                placeholder="e.g. Ahmad Putra"
+              />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label"
+                >PHONE NUMBER <span class="rose">*</span></label
+              >
+              <input
+                type="tel"
+                class="form-control"
+                placeholder="+62 812 3456 7890"
+              />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label"
+                >SELECT DOCTOR <span class="rose">*</span></label
+              >
+              <select class="form-select">
+                <option value="Choose a doctor">Choose a doctor</option>
+                <option value="Dr.Salwa Az-Zahra Munir">
+                  Dr.Salwa Az-Zahra Munir
+                </option>
+                <option value="Dr.Daaniys Nadya Shafwa">
+                  Dr.Daaniys Nadya Shafwa
+                </option>
+                <option value="Dr.Shania Risky Agustin">
+                  Dr.Shania Risky Agustin
+                </option>
+                <option value="Dr.Olga Hadi Purna Wahab Basalamah">
+                  Dr.Olga Hadi Purna Wahab Basalamah
+                </option>
+                <option value="Dr.Reynaldo William Tendean">
+                  Dr.Reynaldo William Tendean
+                </option>
+                <option value="Dr.A. Muh. Ilhamsyah Bau Mange">
+                  Dr.A. Muh. Ilhamsyah Bau Mange
+                </option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">DATE <span class="rose">*</span></label>
+              <input type="date" class="form-control" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label"
+                >PREFFERED TIME <span class="rose">*</span></label
+              >
+              <select class="form-select">
+                <option value="Select time">Select time</option>
+                <option value="08.00">08.00</option>
+                <option value="08.30">08.30</option>
+                <option value="09.00">09.00</option>
+                <option value="09.30">09.30</option>
+                <option value="10.00">10.00</option>
+                <option value="10.30">10.30</option>
+                <option value="11.00">11.00</option>
+                <option value="11.30">11.30</option>
+                <option value="12.00">12.00</option>
+                <option value="12.30">12.30</option>
+                <option value="13.00">13.00</option>
+                <option value="13.30">13.30</option>
+                <option value="14.00">14.00</option>
+                <option value="14.30">14.30</option>
+                <option value="15.00">15.00</option>
+                <option value="15.30">15.30</option>
+                <option value="16.00">16.00</option>
+                <option value="16.30">16.30</option>
+                <option value="17.00">17.00</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label"
+                >REASON FOR VISIT <span class="rose">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                placeholder="e.g. Chest pain, follow up.."
+              />
+            </div>
+            <div
+              class="col-12 d-flex align-items-center justify-content-between gap-5"
+            >
+              <p class="text-xs">
+                Queue position is assigned by booking time. Fields marked
+                <span class="rose">*</span> are required.
+              </p>
+              <button type="submit" class="btn btn-success">
+                Confirm Booking
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
     </div>
-
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-    ></script>
 
     <div class="cursor-trail-container">
       <img class="flair" src="images-removebg-preview.png" alt="" />
@@ -151,12 +496,16 @@
       <img class="flair" src="images-removebg-preview.png" alt="" />
     </div>
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script> -->
-
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 
-    <!-- <script src="gsap.min.js"></script> -->
+    <!-- JS BOOTSRAP -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
 
+    <!-- SCRIPT JS -->
     <script src="script.js"></script>
   </body>
 </html>
