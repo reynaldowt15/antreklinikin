@@ -414,7 +414,7 @@ function getCurrentSchedule() {
         });
       }
     }
-
+  }
     return result;
 }
 
